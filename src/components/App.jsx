@@ -16,29 +16,29 @@ export default class App extends Component {
     loadMoreBtnShown: true,
   };
 
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  };
-  openModal = largeImageURL => {
-    this.setState({
-      modalImage: largeImageURL,
-    });
-    this.toggleModal();
-  };
+  // toggleModal = () => {
+  //   this.setState(({ showModal }) => ({
+  //     showModal: !showModal,
+  //   }));
+  // };
+  // openModal = largeImageURL => {
+  //   this.setState({
+  //     modalImage: largeImageURL,
+  //   });
+  //   this.toggleModal();
+  // };
 
-  handleSubmit = imageSearch => {
-    this.setState({ imageSearch });
+  handleSubmit = (imageSearch, page) => {
+    this.setState({ imageSearch, page });
   };
 
 
   render() {
-    
+
     return (
       <Layout>
         <Searchbar onSearch={this.handleSubmit} />
-        <ImageGallery value={this.state.imageSearch} onOpen={this.openModal} />
+        <ImageGallery value={this.state.imageSearch}  />
         {this.state.showModal && this.state.modalImage && (
           <Modal onClose={this.toggleModal} modalImage={this.modalImage} />
         )}

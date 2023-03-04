@@ -26,13 +26,15 @@ export default class ImageGallery extends Component {
         entryData: [],
         loadMoreBtnShown: true,
       });
+      // console.log('1', this.state.page);
     }
 
     if (
       prevProps.value !== this.props.value ||
       prevState.page !== this.state.page
     ) {
-      this.setState({ loading: true, page: this.state.page });
+      this.setState({ loading: true });
+      console.log('2', this.state.page);
 
       setTimeout(() => {
         getImages(this.props.value, this.state.page)
@@ -100,5 +102,4 @@ export default class ImageGallery extends Component {
 
 ImageGallery.propTypes = {
   value: PropTypes.string.isRequired,
-  onOpen: PropTypes.func.isRequired,
 };

@@ -8,6 +8,7 @@ import { Header, Form, SearchFormButton, Input } from './Searchbar.styled';
 export default class Searchbar extends Component {
   state = {
     value: '',
+    currPage: 1,
   };
 
   handleChange = event => {
@@ -24,8 +25,8 @@ export default class Searchbar extends Component {
       return;
     }
 
-    this.props.onSearch(this.state.value);
-    this.setState({ value: '' });
+    this.props.onSearch(this.state.value, this.state.currPage);
+    this.setState({ value: '', currPage: 1 });
   };
 
   render() {
