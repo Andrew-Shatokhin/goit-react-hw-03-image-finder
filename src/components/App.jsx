@@ -32,18 +32,9 @@ export default class App extends Component {
     this.setState({ imageSearch });
   };
 
-  // handleSubmit = imageSearch => {
-  //   this.setState({
-  //     imageSearch,
-  //     page: 1,
-  //     entryData: [],
-  //     loading: true,
-  //     loadMoreBtnShown: true,
-  //   });
-  // };
 
   render() {
-    // console.log('state', this.state);
+    
     return (
       <Layout>
         <Searchbar onSearch={this.handleSubmit} />

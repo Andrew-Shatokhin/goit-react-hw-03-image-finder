@@ -9,7 +9,6 @@ import { getImages } from 'services/getImages';
 import { List } from './ImageGallery.styled';
 import { Button } from 'components/Button/Button';
 
-
 export default class ImageGallery extends Component {
   state = {
     images: null,
@@ -76,15 +75,11 @@ export default class ImageGallery extends Component {
       page: prevState.page + 1,
       loading: true,
     }));
-
-    // this.setState({ loading: true });
   };
 
   render() {
     return (
       <div>
-        {/* {this.state.error && <h1>ytn</h1>} */}
-        {this.state.loading && threeDots}
         <List>
           {this.state.entryData.length > 0 &&
             this.state.entryData.map(item => (
@@ -96,6 +91,7 @@ export default class ImageGallery extends Component {
           this.state.loadMoreBtnShown && (
             <Button onLoadMore={this.onLoadMoreBtn} />
           )}
+        {this.state.loading && threeDots}
         <ToastContainer autoClose={1500} />
       </div>
     );
