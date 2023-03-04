@@ -8,28 +8,12 @@ import { Modal } from './Modal/Modal';
 export default class App extends Component {
   state = {
     imageSearch: '',
-    showModal: false,
-    modalImage: null,
-    entryData: [],
-    page: 1,
-    loading: true,
-    loadMoreBtnShown: true,
+
   };
 
-  // toggleModal = () => {
-  //   this.setState(({ showModal }) => ({
-  //     showModal: !showModal,
-  //   }));
-  // };
-  // openModal = largeImageURL => {
-  //   this.setState({
-  //     modalImage: largeImageURL,
-  //   });
-  //   this.toggleModal();
-  // };
-
-  handleSubmit = (imageSearch, page) => {
-    this.setState({ imageSearch, page });
+  
+  handleSubmit = (imageSearch) => {
+    this.setState({ imageSearch });
   };
 
 

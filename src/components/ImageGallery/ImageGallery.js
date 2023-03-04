@@ -20,23 +20,28 @@ export default class ImageGallery extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.value !== this.props.value) {
-      this.setState({
-        page: 1,
-        entryData: [],
-        loadMoreBtnShown: true,
-      });
-      // console.log('1', this.state.page);
-    }
+
+if (prevProps.value !== this.props.value) {
+  this.setState({
+    page: 1,
+    entryData: [],
+    loadMoreBtnShown: true,
+  });
+
+  // console.log('1', this.state.page);
+}
+
+
+
 
     if (
       prevProps.value !== this.props.value ||
       prevState.page !== this.state.page
     ) {
-      this.setState({ loading: true });
-      console.log('2', this.state.page);
+      this.setState({ loading: true, page: this.state.page });
+      // console.log('2', this.state.page);
 
-      setTimeout(() => {
+
         getImages(this.props.value, this.state.page)
           .then(data => {
             if (data.total === 0) {
@@ -57,8 +62,17 @@ export default class ImageGallery extends Component {
           })
           .catch(error => this.setState({ error }));
         // .finally(() => this.setState({ loading: false }));
-      }, 500);
+
     }
+
+
+
+
+
+
+
+
+
   }
 
   // handleDataAdd = () => {
