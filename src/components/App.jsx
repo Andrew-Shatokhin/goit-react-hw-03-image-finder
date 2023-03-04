@@ -8,21 +8,18 @@ import { Modal } from './Modal/Modal';
 export default class App extends Component {
   state = {
     imageSearch: '',
-
   };
 
-  
-  handleSubmit = (imageSearch) => {
+  handleSubmit = imageSearch => {
     this.setState({ imageSearch });
   };
-
+  
 
   render() {
-
     return (
       <Layout>
         <Searchbar onSearch={this.handleSubmit} />
-        <ImageGallery value={this.state.imageSearch}  />
+        <ImageGallery value={this.state.imageSearch} />
         {this.state.showModal && this.state.modalImage && (
           <Modal onClose={this.toggleModal} modalImage={this.modalImage} />
         )}

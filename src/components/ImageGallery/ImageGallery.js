@@ -11,7 +11,7 @@ import { Button } from 'components/Button/Button';
 
 export default class ImageGallery extends Component {
   state = {
-    images: null,
+    // images: null,
     loading: false,
     error: null,
     page: 1,
@@ -20,59 +20,45 @@ export default class ImageGallery extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    if (prevProps.value !== this.props.value) {
+      this.setState({
+        page: 1,
+        entryData: [],
+        loadMoreBtnShown: true,
+      });
 
-if (prevProps.value !== this.props.value) {
-  this.setState({
-    page: 1,
-    entryData: [],
-    loadMoreBtnShown: true,
-  });
-
-  // console.log('1', this.state.page);
-}
-
-
-
+      // console.log('1', this.state.page);
+    }
 
     if (
       prevProps.value !== this.props.value ||
       prevState.page !== this.state.page
     ) {
       this.setState({ loading: true, page: this.state.page });
+      // page: this.state.page;
       // console.log('2', this.state.page);
 
+      getImages(this.props.value, this.state.page)
+        .then(data => {
+          if (data.total === 0) {
+            this.setState({ loading: false });
+            return toast.error(`Nothing was found for ${this.props.value}`, {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          }
 
-        getImages(this.props.value, this.state.page)
-          .then(data => {
-            if (data.total === 0) {
-              this.setState({ loading: false });
-              return toast.error(`Nothing was found for ${this.props.value}`, {
-                position: toast.POSITION.TOP_CENTER,
-              });
-            }
+          if (data.hits.length < 12) {
+            this.setState({ loadMoreBtnShown: false });
+          }
 
-            if (data.hits.length < 12) {
-              this.setState({ loadMoreBtnShown: false });
-            }
-
-            this.setState(prevState => ({
-              entryData: [...prevState.entryData, ...data.hits],
-              loading: false,
-            }));
-          })
-          .catch(error => this.setState({ error }));
-        // .finally(() => this.setState({ loading: false }));
-
+          this.setState(prevState => ({
+            entryData: [...prevState.entryData, ...data.hits],
+            loading: false,
+          }));
+        })
+        .catch(error => this.setState({ error }));
+      // .finally(() => this.setState({ loading: false }));
     }
-
-
-
-
-
-
-
-
-
   }
 
   // handleDataAdd = () => {
