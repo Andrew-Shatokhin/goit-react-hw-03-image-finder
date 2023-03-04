@@ -3,36 +3,57 @@ import { GlobalStyle } from './GlobalStyle';
 import ImageGallery from './ImageGallery/ImageGallery';
 import { Layout } from './Layout';
 import Searchbar from './Searchbar/Searchbar';
+import { Modal } from './Modal/Modal';
 
 export default class App extends Component {
   state = {
     imageSearch: '',
+    showModal: false,
+    modalImage: null,
+    entryData: [],
+    page: 1,
+    loading: true,
+    loadMoreBtnShown: true,
+  };
+
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+  openModal = largeImageURL => {
+    this.setState({
+      modalImage: largeImageURL,
+    });
+    this.toggleModal();
   };
 
   handleSubmit = imageSearch => {
     this.setState({ imageSearch });
   };
 
+  // handleSubmit = imageSearch => {
+  //   this.setState({
+  //     imageSearch,
+  //     page: 1,
+  //     entryData: [],
+  //     loading: true,
+  //     loadMoreBtnShown: true,
+  //   });
+  // };
+
   render() {
-    console.log('state', this.state);
+    // console.log('state', this.state);
     return (
       <Layout>
         <Searchbar onSearch={this.handleSubmit} />
-        <ImageGallery value={this.state.imageSearch} />
+        <ImageGallery value={this.state.imageSearch} onOpen={this.openModal} />
+        {this.state.showModal && this.state.modalImage && (
+          <Modal onClose={this.toggleModal} modalImage={this.modalImage} />
+        )}
 
         <GlobalStyle />
       </Layout>
     );
   }
 }
-
-// componentDidMount() {
-//   this.setState({ loading: true });
-//   // const KEY = '32826694-227c236c87c03694788342456';
-//   fetch(
-//     'https://pixabay.com/api/?q=cat&page=1&key=32826694-227c236c87c03694788342456&image_type=photo&orientation=horizontal&per_page=12'
-//   )
-//     .then(res => res.json())
-//     .then(image => this.setState({ image }))
-//     .finally(() => this.setState({ loading: false }));
-// }

@@ -1,5 +1,7 @@
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import PropTypes from 'prop-types';
 import { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { ImSearch } from 'react-icons/im';
 import { Header, Form, SearchFormButton, Input } from './Searchbar.styled';
 
@@ -8,17 +10,17 @@ export default class Searchbar extends Component {
     value: '',
   };
 
-  // handleChange = ({ target: { value } }) => {
-  //   this.setState({ value });
-  // };
   handleChange = event => {
     this.setState({ value: event.currentTarget.value.toLowerCase() });
   };
+
   handleSubmit = e => {
     e.preventDefault();
 
     if (this.state.value.trim() === '') {
-      alert('The search string cannot be empty!');
+      toast.warn('The search string cannot be empty!', {
+        position: toast.POSITION.TOP_CENTER,
+      });
       return;
     }
 
@@ -43,49 +45,12 @@ export default class Searchbar extends Component {
             onChange={this.handleChange}
           />
         </Form>
+        <ToastContainer autoClose={1500} />
       </Header>
     );
   }
 }
 
-// export default class Searchbar extends Component {
-//   state = {
-//     image: '',
-//   };
-
-//   handleNameChange = event => {
-//     this.setState({ image: event.currentTarget.value.toLowerCase() });
-//   };
-
-//   handleSubmit = event => {
-//     event.preventDefault();
-//     if (this.state.image.trim() === '') {
-//       alert('The search string cannot be empty!');
-//       return;
-//     }
-//     this.props.onSubmit(this.state.image);
-//     this.setState({ image: '' });
-//   };
-
-//   render() {
-//     return (
-//       <header>
-//         <form onSubmit={this.handleSubmit}>
-//           <button type="submit">
-//             <ImSearch>Search</ImSearch>
-//           </button>
-
-//           <input
-//             type="text"
-//             name="image"
-//             value={this.state.image}
-//             onChange={this.handleNameChange}
-//             // autocomplete="off"
-//             // autofocus
-//             placeholder="Search images and photos"
-//           />
-//         </form>
-//       </header>
-//     );
-//   }
-// }
+Searchbar.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+};
