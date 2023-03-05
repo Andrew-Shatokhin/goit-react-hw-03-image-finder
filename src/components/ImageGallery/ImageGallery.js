@@ -11,7 +11,6 @@ import { Button } from 'components/Button/Button';
 
 export default class ImageGallery extends Component {
   state = {
-    // images: null,
     query: '',
     entryData: [],
     loading: false,
@@ -22,36 +21,32 @@ export default class ImageGallery extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const prevQuery = prevProps.value;
-    const nextQuery = this.props.value;
+    const currentQuery = this.props.value;
     const prevPage = prevState.page;
-    const nextPage = this.state.page;
+    const currentPage = this.state.page;
     const prevStateQuery = prevState.query;
 
-    if (prevQuery !== nextQuery) {
+    if (prevQuery !== currentQuery) {
       this.setState(prev => ({
         ...prev,
         entryData: [],
         page: 1,
-        query: nextQuery,
+        query: currentQuery,
         loadMoreBtnShown: true,
       }));
-
-      // console.log('1', this.state.page);
     }
 
     if (
       prevStateQuery !== this.state.query ||
-      (prevPage !== nextPage && nextPage !== 1)
+      (prevPage !== currentPage && currentPage !== 1)
     ) {
-      this.setState({ loading: true, page: this.state.page });
-      // page: this.state.page;
-      // console.log('2', this.state.page);
+      this.setState({ loading: true, page: currentPage });
 
-      getImages(this.props.value, this.state.page)
+      getImages(currentQuery, currentPage)
         .then(data => {
           if (data.total === 0) {
             this.setState({ loading: false });
-            return toast.error(`Nothing was found for ${this.props.value}`, {
+            return toast.error(`Nothing was found for ${currentQuery}`, {
               position: toast.POSITION.TOP_CENTER,
             });
           }
@@ -89,20 +84,17 @@ export default class ImageGallery extends Component {
   };
 
   render() {
+    const { entryData, loading, loadMoreBtnShown } = this.state;
     return (
       <div>
         <List>
-          {this.state.entryData.length > 0 &&
-            this.state.entryData.map(item => (
-              <Items items={item} key={item.id} />
-            ))}
+          {entryData.length > 0 &&
+            entryData.map(item => <Items items={item} key={item.id} />)}
         </List>
-        {this.state.entryData.length > 0 &&
-          !this.state.loading &&
-          this.state.loadMoreBtnShown && (
-            <Button onLoadMore={this.onLoadMoreBtn} />
-          )}
-        {this.state.loading && threeDots}
+        {entryData.length > 0 && !loading && loadMoreBtnShown && (
+          <Button onLoadMore={this.onLoadMoreBtn} />
+        )}
+        {loading && threeDots}
         <ToastContainer autoClose={1500} />
       </div>
     );

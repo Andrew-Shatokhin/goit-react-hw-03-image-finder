@@ -13,14 +13,16 @@ export default class App extends Component {
   handleSubmit = imageSearch => {
     this.setState({ imageSearch });
   };
-  
+
 
   render() {
+    const { imageSearch, modalImage, showModal } = this.state;
+
     return (
       <Layout>
         <Searchbar onSearch={this.handleSubmit} />
-        <ImageGallery value={this.state.imageSearch} />
-        {this.state.showModal && this.state.modalImage && (
+        <ImageGallery value={imageSearch} />
+        {showModal && modalImage && (
           <Modal onClose={this.toggleModal} modalImage={this.modalImage} />
         )}
 
