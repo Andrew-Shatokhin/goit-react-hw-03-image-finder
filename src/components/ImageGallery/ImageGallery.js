@@ -12,27 +12,36 @@ import { Button } from 'components/Button/Button';
 export default class ImageGallery extends Component {
   state = {
     // images: null,
-    loading: false,
-    error: null,
-    page: 1,
-    loadMoreBtnShown: true,
+    query: '',
     entryData: [],
+    loading: false,
+    page: 1,
+    error: null,
+    loadMoreBtnShown: true,
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.value !== this.props.value) {
-      this.setState({
-        page: 1,
+    const prevQuery = prevProps.value;
+    const nextQuery = this.props.value;
+    const prevPage = prevState.page;
+    const nextPage = this.state.page;
+    const prevStateQuery = prevState.query;
+
+    if (prevQuery !== nextQuery) {
+      this.setState(prev => ({
+        ...prev,
         entryData: [],
+        page: 1,
+        query: nextQuery,
         loadMoreBtnShown: true,
-      });
+      }));
 
       // console.log('1', this.state.page);
     }
 
     if (
-      prevProps.value !== this.props.value ||
-      prevState.page !== this.state.page
+      prevStateQuery !== this.state.query ||
+      (prevPage !== nextPage && nextPage !== 1)
     ) {
       this.setState({ loading: true, page: this.state.page });
       // page: this.state.page;
@@ -51,8 +60,8 @@ export default class ImageGallery extends Component {
             this.setState({ loadMoreBtnShown: false });
           }
 
-          this.setState(prevState => ({
-            entryData: [...prevState.entryData, ...data.hits],
+          this.setState(state => ({
+            entryData: [...state.entryData, ...data.hits],
             loading: false,
           }));
         })
